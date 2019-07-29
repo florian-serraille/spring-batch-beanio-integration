@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<employeeFileXML>
+    <header>
+        <recordType>Header</recordType>
+        <fileDate>01012011</fileDate>
+    </header>
+    <employee>
+        <recordType>Detail</recordType>
+        <firstName>Joe</firstName>
+        <lastName>Smith</lastName>
+        <title>Developer</title>
+        <salary>75000</salary>
+        <hireDate>10012009</hireDate>
+    </employee>
+    <employee>
+        <recordType>Detail</recordType>
+        <firstName>Jane</firstName>
+        <lastName>Doe</lastName>
+        <title>Architect</title>
+        <salary>80000</salary>
+        <hireDate>01152008</hireDate>
+    </employee>
+    <employee>
+        <recordType>Detail</recordType>
+        <firstName>Jon</firstName>
+        <lastName>Anderson</lastName>
+        <title>Manager</title>
+        <salary>85000</salary>
+        <hireDate>03182007</hireDate>
+    </employee>
+    <trailer>
+        <recordType>Trailer</recordType>
+        <recordCount>3</recordCount>
+    </trailer>
+</employeeFileXML>
