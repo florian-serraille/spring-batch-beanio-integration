@@ -1,4 +1,4 @@
-package com.labs.beanio.domain;
+package com.labs.beanio.xml.domain;
 
 import java.util.Date;
 

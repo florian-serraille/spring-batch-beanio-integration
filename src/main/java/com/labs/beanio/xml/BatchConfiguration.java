@@ -1,6 +1,6 @@
-package com.labs.beanio;
+package com.labs.beanio.xml;
 
-import com.labs.beanio.domain.Register;
+import com.labs.beanio.xml.domain.Register;
 import org.beanio.StreamFactory;
 import org.beanio.spring.BeanIOFlatFileItemReader;
 import org.beanio.spring.BeanIOFlatFileItemWriter;
@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.InputStream;
-import java.util.List;
 
 @Configuration
 public class BatchConfiguration {
@@ -31,26 +30,26 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job job(Step step) {
+	public Job jobXMLtoCSV(Step step) {
 		return jobBuilderFactory
-				.get("job")
+				.get("jobXMLtoCSV")
 				.start(step)
 				.build();
 	}
 
 	@Bean
-	public Step step(ItemReader<Register> reader,
-	                         ItemWriter<Register> writer) {
+	public Step stepXMLtoCSV(ItemReader<Register> xmlReader,
+							 ItemWriter<Register> xmlWriter) {
 		return stepBuilderFactory
-				.get("step")
+				.get("stepXMLtoCSV")
 				.<Register, Register>chunk(1)
-				.reader(reader)
-				.writer(writer)
+				.reader(xmlReader)
+				.writer(xmlWriter)
 				.build();
 	}
 
 	@Bean
-	public  ItemReader<Register> beanIOReader() throws Exception {
+	public  ItemReader<Register> beanIOXMLReader() throws Exception {
 		BeanIOFlatFileItemReader<Register> beanIOFlatFileItemReader = new BeanIOFlatFileItemReader<>();
 
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -69,7 +68,7 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public  ItemWriter<Register> beanIOWriter() throws Exception {
+	public  ItemWriter<Register> beanIOCSVWriter() throws Exception {
 
 		BeanIOFlatFileItemWriter<Register> beanIOFlatFileItemWriter = new BeanIOFlatFileItemWriter<>();
 

@@ -1,4 +1,4 @@
-package com.labs.beanio.domain;
+package com.labs.beanio.xml.domain;
 
 public class Trailer implements Register {
     private String recordType;

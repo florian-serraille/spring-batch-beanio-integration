@@ -1,4 +1,4 @@
-package com.labs.beanio;
+package com.labs.beanio.xml;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
