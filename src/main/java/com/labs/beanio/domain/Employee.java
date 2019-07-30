@@ -2,7 +2,7 @@ package com.labs.beanio.domain;
 
 import java.util.Date;
 
-public class Employee implements Reg {
+public class Employee implements Register {
 
     private String recordType;
 

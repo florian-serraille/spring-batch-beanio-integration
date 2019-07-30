@@ -1,4 +1,4 @@
 package com.labs.beanio.domain;
 
-public interface Reg {
+public interface Register {
 }

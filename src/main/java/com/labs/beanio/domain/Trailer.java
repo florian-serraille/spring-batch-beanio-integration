@@ -1,6 +1,6 @@
 package com.labs.beanio.domain;
 
-public class Trailer implements Reg {
+public class Trailer implements Register {
     private String recordType;
     private Integer recordCount;
 

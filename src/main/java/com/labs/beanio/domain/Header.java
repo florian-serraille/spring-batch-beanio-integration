@@ -2,7 +2,7 @@ package com.labs.beanio.domain;
 
 import java.util.Date;
 
-public class Header implements Reg {
+public class Header implements Register {
     private String recordType;
     private Date fileDate;
 
