@@ -1,4 +1,4 @@
-package com.labs.beanio.xml.domain;
+package com.labs.beanio.annotation.domain;
 
 import lombok.Data;
 
