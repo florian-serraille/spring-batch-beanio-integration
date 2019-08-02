@@ -8,7 +8,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,13 +19,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
-public class BatchConfiguration {
+public class BatchConfigurationByMappingFile {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    public BatchConfiguration(JobBuilderFactory jobBuilderFactory,
-                              StepBuilderFactory stepBuilderFactory) {
+    public BatchConfigurationByMappingFile(JobBuilderFactory jobBuilderFactory,
+                                           StepBuilderFactory stepBuilderFactory) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
     }
@@ -35,26 +34,26 @@ public class BatchConfiguration {
     /* Job configuration */
 
     @Bean
-    public Job jobXMLToCSV(Step stepXMLtoCSV) {
+    public Job jobXMLToCSVByMappingFile(Step stepXMLtoCSVByMappingFile) {
         return jobBuilderFactory
-                .get("jobXMLtoCSV")
-                .start(stepXMLtoCSV)
+                .get("jobXMLtoCSVByMappingFile")
+                .start(stepXMLtoCSVByMappingFile)
                 .build();
     }
 
     @Bean
-    public Job jobDelimitedToFixedLenght(Step stepDelimitedToFixedLenght) {
+    public Job jobDelimitedToFixedLengthByMappingFile(Step stepDelimitedToFixedLengthByMappingFile) {
         return jobBuilderFactory
-                .get("jobDelimitedToFixedLenght")
-                .start(stepDelimitedToFixedLenght)
+                .get("jobDelimitedToFixedLengthByMappingFile")
+                .start(stepDelimitedToFixedLengthByMappingFile)
                 .build();
     }
 
     /* Step configuration */
 
     @Bean
-    public Step stepXMLtoCSV(@Qualifier("beanIOXMLReader") ItemReader<Register> xmlReader,
-                             @Qualifier("beanIOCSVWriter") ItemWriter<Register> csvWriter) {
+    public Step stepXMLtoCSVByMappingFile(@Qualifier("beanIOXMLReaderByMappingFile") ItemReader<Register> xmlReader,
+                                          @Qualifier("beanIOCSVWriterByMappingFile") ItemWriter<Register> csvWriter) {
         return stepBuilderFactory
                 .get("stepXMLtoCSV")
                 .<Register, Register>chunk(1)
@@ -64,36 +63,35 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public Step stepDelimitedToFixedLenght(@Qualifier("beanIODelimitedReader") ItemReader<Register> delimitedReader,
-                                           @Qualifier("beanIOFixedLengthWriter") ItemWriter<Register> fixedLenghtWriter) {
+    public Step stepDelimitedToFixedLengthByMappingFile(@Qualifier("beanIODelimitedReaderByMappingFile") ItemReader<Register> delimitedReader,
+                                                        @Qualifier("beanIOFixedLengthWriterByMappingFile") ItemWriter<Register> fixedLengthWriter) {
         return stepBuilderFactory
-                .get("stepDelimitedToFixedLenght")
+                .get("stepDelimitedToFixedLengthByMappingFile")
                 .<Register, Register>chunk(1)
                 .reader(delimitedReader)
-                .writer(fixedLenghtWriter)
+                .writer(fixedLengthWriter)
                 .build();
     }
 
     /* Item configuration */
 
     @Bean
-    public ItemReader<Register> beanIOXMLReader(StreamFactory streamFactory) throws Exception {
+    public ItemReader<Register> beanIOXMLReaderByMappingFile(@Qualifier("streamFactoryByMappingFile") StreamFactory streamFactory) throws Exception {
 
         BeanIOFlatFileItemReader<Register> beanIOFlatFileItemReader = new BeanIOFlatFileItemReader<>();
         beanIOFlatFileItemReader.setResource(new FileSystemResource("input/input.xml"));
         beanIOFlatFileItemReader.setStreamFactory(streamFactory);
         beanIOFlatFileItemReader.setStreamName("employeeFileXML");
-        beanIOFlatFileItemReader.open(new ExecutionContext());
         beanIOFlatFileItemReader.afterPropertiesSet();
 
         return beanIOFlatFileItemReader;
     }
 
     @Bean
-    public ItemWriter<Register> beanIOCSVWriter(StreamFactory streamFactory) throws Exception {
+    public ItemWriter<Register> beanIOCSVWriterByMappingFile(@Qualifier("streamFactoryByMappingFile") StreamFactory streamFactory) throws Exception {
 
         BeanIOFlatFileItemWriter<Register> beanIOFlatFileItemWriter = new BeanIOFlatFileItemWriter<>();
-        beanIOFlatFileItemWriter.setResource(new FileSystemResource("output/output.csv"));
+        beanIOFlatFileItemWriter.setResource(new FileSystemResource("output/outputByFileMapping.csv"));
         beanIOFlatFileItemWriter.setStreamFactory(streamFactory);
         beanIOFlatFileItemWriter.setStreamName("employeeFileCSV");
         beanIOFlatFileItemWriter.setTransactional(false);
@@ -104,7 +102,7 @@ public class BatchConfiguration {
 
 
     @Bean
-    public ItemReader<Register> beanIODelimitedReader(StreamFactory streamFactory) throws Exception {
+    public ItemReader<Register> beanIODelimitedReaderByMappingFile(@Qualifier("streamFactoryByMappingFile") StreamFactory streamFactory) throws Exception {
 
         BeanIOFlatFileItemReader<Register> beanIOFlatFileItemReader = new BeanIOFlatFileItemReader<>();
         beanIOFlatFileItemReader.setResource(new FileSystemResource("input/input.delimited"));
@@ -116,10 +114,10 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public ItemWriter<Register> beanIOFixedLengthWriter(StreamFactory streamFactory) throws Exception {
+    public ItemWriter<Register> beanIOFixedLengthWriterByMappingFile(@Qualifier("streamFactoryByMappingFile") StreamFactory streamFactory) throws Exception {
 
         BeanIOFlatFileItemWriter<Register> beanIOFlatFileItemWriter = new BeanIOFlatFileItemWriter<>();
-        beanIOFlatFileItemWriter.setResource(new FileSystemResource("output/output.fl"));
+        beanIOFlatFileItemWriter.setResource(new FileSystemResource("output/outputByFileMapping.fl"));
         beanIOFlatFileItemWriter.setStreamFactory(streamFactory);
         beanIOFlatFileItemWriter.setStreamName("employeeFileFixedLength");
         beanIOFlatFileItemWriter.setTransactional(false);
@@ -131,7 +129,7 @@ public class BatchConfiguration {
     /* BeanIO requirement */
 
     @Bean
-    public StreamFactory getStreamFactory() throws IOException {
+    public StreamFactory streamFactoryByMappingFile() throws IOException {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream("mapping.xml");
