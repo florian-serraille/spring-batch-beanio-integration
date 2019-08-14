@@ -79,11 +79,10 @@ public class BatchConfigurationWithoutIntegration {
     /* Item configuration */
 
     @Bean
-    public ItemReader<Register> beanIOXMLReaderWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) throws Exception {
-
-        BeanReader in = streamFactory.createReader("employeeFileXML", new File("input/input.xml"));
+    public ItemReader<Register> beanIOXMLReaderWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) {
 
         return () -> {
+	        BeanReader in = streamFactory.createReader("employeeFileXML", new File("input/input.xml"));
             Register register;
             while ((register = (Register) in.read()) != null) {
                 return register;
@@ -94,11 +93,10 @@ public class BatchConfigurationWithoutIntegration {
     }
 
     @Bean
-    public ItemWriter<Register> beanIOCSVWriterWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) throws Exception {
-
-        BeanWriter out = streamFactory.createWriter("employeeFileCSV", new File("output/outputWithoutIntegration.csv"));
+    public ItemWriter<Register> beanIOCSVWriterWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) {
 
         return (items) -> {
+	        BeanWriter out = streamFactory.createWriter("employeeFileCSV", new File("output/outputWithoutIntegration.csv"));
             items.forEach(out::write);
             out.flush();
             out.close();

@@ -17,6 +17,8 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -60,10 +62,11 @@ public class BatchConfigurationByAnnotation {
     /* Item configuration */
 
     @Bean
-    public ItemReader<Register> beanIODelimitedReaderByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory) throws Exception {
+    public ItemReader<Register> beanIODelimitedReaderByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory,
+                                                                  @Value("${input.annotation}") String inputFile, ApplicationContext applicationContext) throws Exception {
 
         BeanIOFlatFileItemReader<Register> beanIOFlatFileItemReader = new BeanIOFlatFileItemReader<>();
-        beanIOFlatFileItemReader.setResource(new FileSystemResource("input/input.delimited"));
+        beanIOFlatFileItemReader.setResource(new FileSystemResource(inputFile));
         beanIOFlatFileItemReader.setStreamFactory(streamFactory);
         beanIOFlatFileItemReader.setStreamName("employeeFileDelimited");
         beanIOFlatFileItemReader.afterPropertiesSet();
@@ -72,10 +75,11 @@ public class BatchConfigurationByAnnotation {
     }
 
     @Bean
-    public ItemWriter<Register> beanIOCSVWriterByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory) throws Exception {
+    public ItemWriter<Register> beanIOCSVWriterByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory,
+                                                            @Value("${output.annotation}") String outputFile) throws Exception {
 
         BeanIOFlatFileItemWriter<Register> beanIOFlatFileItemWriter = new BeanIOFlatFileItemWriter<>();
-        beanIOFlatFileItemWriter.setResource(new FileSystemResource("output/outputByAnnotation.csv"));
+        beanIOFlatFileItemWriter.setResource(new FileSystemResource(outputFile));
         beanIOFlatFileItemWriter.setStreamFactory(streamFactory);
         beanIOFlatFileItemWriter.setStreamName("employeeFileCSV");
         beanIOFlatFileItemWriter.setTransactional(false);
