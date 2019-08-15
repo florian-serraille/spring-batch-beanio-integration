@@ -14,6 +14,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,6 +41,7 @@ public class BatchConfigurationByAnnotation {
     public Job jobDelimitedToCSVByAnnotation(Step stepDelimitedToCSVByAnnotation) {
         return jobBuilderFactory
                 .get("jobDelimitedToCSVByAnnotation")
+                .incrementer(new RunIdIncrementer())
                 .start(stepDelimitedToCSVByAnnotation)
                 .build();
     }

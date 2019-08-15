@@ -8,6 +8,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +38,7 @@ public class BatchConfigurationByMappingFile {
     public Job jobXMLToCSVByMappingFile(Step stepXMLtoCSVByMappingFile) {
         return jobBuilderFactory
                 .get("jobXMLtoCSVByMappingFile")
+                .incrementer(new RunIdIncrementer())
                 .start(stepXMLtoCSVByMappingFile)
                 .build();
     }
@@ -45,6 +47,7 @@ public class BatchConfigurationByMappingFile {
     public Job jobDelimitedToFixedLengthByMappingFile(Step stepDelimitedToFixedLengthByMappingFile) {
         return jobBuilderFactory
                 .get("jobDelimitedToFixedLengthByMappingFile")
+                .incrementer(new RunIdIncrementer())
                 .start(stepDelimitedToFixedLengthByMappingFile)
                 .build();
     }
