@@ -22,9 +22,9 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@Import(BatchConfigurationByAnnotationFixedLengthToCsv.class)
+@Import(BatchConfigurationFixedLengthToCsvByAnnotation.class)
 @ContextConfiguration(classes= {BatchTestConfiguration.class})
-public class BatchConfigurationByAnnotationFixedLengthToCsvTest {
+public class BatchConfigurationFixedLengthToCsvByAnnotationTest {
 
 	@Value("${output.annotation}")
 	private String OUTPUT_GENERATED_FILE;

@@ -1,7 +1,7 @@
 package com.labs.beanio.xml;
 
 import com.labs.beanio.BatchTestConfiguration;
-import com.labs.beanio.xml.withoutintegration.BatchConfigurationXMLToCSWithoutIntegration;
+import com.labs.beanio.xml.withoutintegration.BatchConfigurationXMLToCSVWithoutIntegration;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +23,10 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@Import(BatchConfigurationXMLToCSWithoutIntegration.class)
+@Import({BatchConfigurationXMLToCSVWithoutIntegration.class,
+        BeanIOXMLConfiguration.class})
 @ContextConfiguration(classes = {BatchTestConfiguration.class})
-public class BatchConfigurationXMLToCSWithoutIntegrationTest {
+public class BatchConfigurationXMLToCSVWithoutIntegrationTest {
 
     @Value("${output.no-integration}")
     private String OUTPUT_GENERATED_FILE;

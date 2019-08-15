@@ -25,12 +25,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 @Configuration
-public class BatchConfigurationByAnnotationFixedLengthToCsv {
+public class BatchConfigurationFixedLengthToCsvByAnnotation {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    public BatchConfigurationByAnnotationFixedLengthToCsv(JobBuilderFactory jobBuilderFactory,
+    public BatchConfigurationFixedLengthToCsvByAnnotation(JobBuilderFactory jobBuilderFactory,
                                                           StepBuilderFactory stepBuilderFactory) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
@@ -65,7 +65,7 @@ public class BatchConfigurationByAnnotationFixedLengthToCsv {
 
     @Bean
     public ItemReader<Register> beanIODelimitedReaderByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory,
-                                                                  @Value("${input.annotation}") String inputFile, ApplicationContext applicationContext) throws Exception {
+                                                                  @Value("${input.delimited}") String inputFile, ApplicationContext applicationContext) throws Exception {
 
         BeanIOFlatFileItemReader<Register> beanIOFlatFileItemReader = new BeanIOFlatFileItemReader<>();
         beanIOFlatFileItemReader.setResource(new FileSystemResource(inputFile));
