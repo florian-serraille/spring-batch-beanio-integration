@@ -25,13 +25,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 @Configuration
-public class BatchConfigurationByAnnotation {
+public class BatchConfigurationByAnnotationFixedLengthToCsv {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    public BatchConfigurationByAnnotation(JobBuilderFactory jobBuilderFactory,
-                                          StepBuilderFactory stepBuilderFactory) {
+    public BatchConfigurationByAnnotationFixedLengthToCsv(JobBuilderFactory jobBuilderFactory,
+                                                          StepBuilderFactory stepBuilderFactory) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
     }
@@ -94,7 +94,6 @@ public class BatchConfigurationByAnnotation {
 
     @Bean
     public StreamFactory streamFactoryByAnnotation() {
-
 
         StreamFactory streamFactory = StreamFactory.newInstance();
 

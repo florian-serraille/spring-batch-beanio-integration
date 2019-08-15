@@ -1,4 +1,4 @@
-package com.labs.beanio.xml;
+package com.labs.beanio.xml.integration;
 
 import com.labs.beanio.xml.domain.Register;
 import org.beanio.StreamFactory;

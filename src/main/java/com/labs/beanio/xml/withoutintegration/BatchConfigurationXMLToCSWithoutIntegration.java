@@ -1,4 +1,4 @@
-package com.labs.beanio.withoutintegration;
+package com.labs.beanio.xml.withoutintegration;
 
 import com.labs.beanio.xml.domain.Register;
 import org.beanio.BeanReader;
@@ -13,6 +13,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -22,13 +23,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Configuration
-public class BatchConfigurationWithoutIntegration {
+public class BatchConfigurationXMLToCSWithoutIntegration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    public BatchConfigurationWithoutIntegration(JobBuilderFactory jobBuilderFactory,
-                                                StepBuilderFactory stepBuilderFactory) {
+    public BatchConfigurationXMLToCSWithoutIntegration(JobBuilderFactory jobBuilderFactory,
+                                                       StepBuilderFactory stepBuilderFactory) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
     }
@@ -44,13 +45,13 @@ public class BatchConfigurationWithoutIntegration {
                 .build();
     }
 
-    @Bean
-    public Job jobDelimitedToFixedLengthWithoutIntegration(Step stepDelimitedToFixedLengthWithoutIntegration) {
-        return jobBuilderFactory
-                .get("jobDelimitedToFixedLengthWithoutIntegration")
-                .start(stepDelimitedToFixedLengthWithoutIntegration)
-                .build();
-    }
+//    @Bean
+//    public Job jobDelimitedToFixedLengthWithoutIntegration(Step stepDelimitedToFixedLengthWithoutIntegration) {
+//        return jobBuilderFactory
+//                .get("jobDelimitedToFixedLengthWithoutIntegration")
+//                .start(stepDelimitedToFixedLengthWithoutIntegration)
+//                .build();
+//    }
 
     /* Step configuration */
 
@@ -65,24 +66,26 @@ public class BatchConfigurationWithoutIntegration {
                 .build();
     }
 
-    @Bean
-    public Step stepDelimitedToFixedLengthWithoutIntegration(@Qualifier("beanIODelimitedReaderWithoutIntegration") ItemReader<Register> delimitedReader,
-                                                        @Qualifier("beanIOFixedLengthWriterWithoutIntegration") ItemWriter<Register> fixedLengthWriter) {
-        return stepBuilderFactory
-                .get("stepDelimitedToFixedLengthWithoutIntegration")
-                .<Register, Register>chunk(1)
-                .reader(delimitedReader)
-                .writer(fixedLengthWriter)
-                .build();
-    }
+//    @Bean
+//    public Step stepDelimitedToFixedLengthWithoutIntegration(@Qualifier("beanIODelimitedReaderWithoutIntegration") ItemReader<Register> delimitedReader,
+//                                                        @Qualifier("beanIOFixedLengthWriterWithoutIntegration") ItemWriter<Register> fixedLengthWriter) {
+//        return stepBuilderFactory
+//                .get("stepDelimitedToFixedLengthWithoutIntegration")
+//                .<Register, Register>chunk(1)
+//                .reader(delimitedReader)
+//                .writer(fixedLengthWriter)
+//                .build();
+//    }
 
     /* Item configuration */
 
     @Bean
-    public ItemReader<Register> beanIOXMLReaderWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) {
+    public ItemReader<Register> beanIOXMLReaderWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory,
+                                                                  @Value("${input.no-integration}") String inputFile) {
+
+        BeanReader in = streamFactory.createReader("employeeFileXML", new File(inputFile));
 
         return () -> {
-	        BeanReader in = streamFactory.createReader("employeeFileXML", new File("input/input.xml"));
             Register register;
             while ((register = (Register) in.read()) != null) {
                 return register;
@@ -93,10 +96,11 @@ public class BatchConfigurationWithoutIntegration {
     }
 
     @Bean
-    public ItemWriter<Register> beanIOCSVWriterWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory) {
+    public ItemWriter<Register> beanIOCSVWriterWithoutIntegration(@Qualifier("streamFactoryWithoutIntegration") StreamFactory streamFactory,
+                                                                  @Value("${output.no-integration}") String outputFile) {
 
         return (items) -> {
-	        BeanWriter out = streamFactory.createWriter("employeeFileCSV", new File("output/outputWithoutIntegration.csv"));
+            BeanWriter out = streamFactory.createWriter("employeeFileCSV", new File(outputFile));
             items.forEach(out::write);
             out.flush();
             out.close();
