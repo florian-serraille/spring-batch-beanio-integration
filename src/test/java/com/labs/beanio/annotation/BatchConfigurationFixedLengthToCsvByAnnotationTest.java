@@ -1,6 +1,7 @@
 package com.labs.beanio.annotation;
 
 import com.labs.beanio.BatchTestConfiguration;
+import com.labs.beanio.xml.BeanIOXMLConfiguration;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,14 +23,15 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@Import(BatchConfigurationFixedLengthToCsvByAnnotation.class)
+@Import({BatchConfigurationFixedLengthToCsvByAnnotation.class,
+		BeanIOXMLConfiguration.class})
 @ContextConfiguration(classes= {BatchTestConfiguration.class})
 public class BatchConfigurationFixedLengthToCsvByAnnotationTest {
 
-	@Value("${output.annotation}")
+	@Value("${output.csv.annotation}")
 	private String OUTPUT_GENERATED_FILE;
 
-	@Value("${output.expected.annotation}")
+	@Value("${output.expected.csv}")
 	private String EXPECTED_FILE;
 
 	@Autowired
@@ -51,7 +53,7 @@ public class BatchConfigurationFixedLengthToCsvByAnnotationTest {
 		// Then
 		// Test exist status
 		assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-		// Test output generated file (compare only the line number of both files)
+		// Test output generated file
 		AssertFile.assertFileEquals(EXPECTED_OUTPUT, new FileSystemResource(OUTPUT_GENERATED_FILE));
 	}
 

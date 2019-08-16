@@ -1,7 +1,7 @@
 package com.labs.beanio.xml;
 
 import com.labs.beanio.BatchTestConfiguration;
-import com.labs.beanio.xml.withoutintegration.BatchConfigurationXMLToCSVWithoutIntegration;
+import com.labs.beanio.xml.integration.BatchConfigurationXMLToCSVByMappingFile;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,15 +23,15 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@Import({BatchConfigurationXMLToCSVWithoutIntegration.class,
+@Import({BatchConfigurationXMLToCSVByMappingFile.class,
         BeanIOXMLConfiguration.class})
 @ContextConfiguration(classes = {BatchTestConfiguration.class})
-public class BatchConfigurationXMLToCSVWithoutIntegrationTest {
+public class BatchConfigurationXMLToCSVByMappingFileTest {
 
-    @Value("${output.no-integration}")
+    @Value("${output.csv.xmlmapping}")
     private String OUTPUT_GENERATED_FILE;
 
-    @Value("${output.expected.no-integration}")
+    @Value("${output.expected.csv}")
     private String EXPECTED_FILE;
 
     @Autowired
@@ -53,7 +53,7 @@ public class BatchConfigurationXMLToCSVWithoutIntegrationTest {
         // Then
         // Test exist status
         assertThat(jobExecution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-        // Test output generated file (compare only the line number of both files)
+        // Test output generated file
         AssertFile.assertFileEquals(EXPECTED_OUTPUT, new FileSystemResource(OUTPUT_GENERATED_FILE));
     }
 

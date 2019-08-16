@@ -1,9 +1,7 @@
 package com.labs.beanio.xml;
 
 import com.labs.beanio.BatchTestConfiguration;
-import com.labs.beanio.xml.withoutintegration.BatchConfigurationDelimitedToFixedLengthWithoutIntegration;
-import com.labs.beanio.xml.withoutintegration.ItemReaderDelimitedNoIntegration;
-import com.labs.beanio.xml.withoutintegration.ItemWriterFixedLengthNoIntegration;
+import com.labs.beanio.xml.integration.BatchConfigurationDelimitedToFixedLengthByMappingFile;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +23,12 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@Import({ItemReaderDelimitedNoIntegration.class,
-        ItemWriterFixedLengthNoIntegration.class,
-        BatchConfigurationDelimitedToFixedLengthWithoutIntegration.class,
+@Import({BatchConfigurationDelimitedToFixedLengthByMappingFile.class,
         BeanIOXMLConfiguration.class})
 @ContextConfiguration(classes = {BatchTestConfiguration.class})
-public class BatchConfigurationDelimitedToFixedLengthWithoutIntegrationTest {
+public class BatchConfigurationDelimitedToFixedLengthByMappingFileTest {
 
-    @Value("${output.fixedlength.no-integration}")
+    @Value("${output.fixedlength.xmlmapping}")
     private String OUTPUT_GENERATED_FILE;
 
     @Value("${output.expected.fixedlength}")

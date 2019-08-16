@@ -12,7 +12,7 @@ public class BeanIOXMLConfiguration {
 	/* BeanIO requirement */
 
 	@Bean
-	public StreamFactory streamFactoryWithoutIntegration() throws IOException {
+	public StreamFactory streamFactoryByXMLMapping() throws IOException {
 
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream is = classloader.getResourceAsStream("mapping.xml");

@@ -78,7 +78,7 @@ public class BatchConfigurationFixedLengthToCsvByAnnotation {
 
     @Bean
     public ItemWriter<Register> beanIOCSVWriterByAnnotation(@Qualifier("streamFactoryByAnnotation") StreamFactory streamFactory,
-                                                            @Value("${output.annotation}") String outputFile) throws Exception {
+                                                            @Value("${output.csv.annotation}") String outputFile) throws Exception {
 
         BeanIOFlatFileItemWriter<Register> beanIOFlatFileItemWriter = new BeanIOFlatFileItemWriter<>();
         beanIOFlatFileItemWriter.setResource(new FileSystemResource(outputFile));
